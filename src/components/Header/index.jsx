@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import profile from '../../images/profileIcon.svg';
 import search from '../../images/searchIcon.svg';
-import API from '../../api';
 
 const Header = () => {
   const { pathname } = useLocation();
@@ -25,7 +24,6 @@ const Header = () => {
 
   return (
     <header>
-      {console.log(API('FOOD', 'byIngredient', 'abacaxi'))}
       <h1 data-testid="page-title">{titles[pathname]}</h1>
 
       {!notToHaveLogo.some((e) => pathname.includes(e)

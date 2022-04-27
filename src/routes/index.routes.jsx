@@ -4,6 +4,7 @@ import Login from '../pages/Login';
 import Foods from '../pages/Foods';
 import Drinks from '../pages/Drinks';
 import Explore from '../pages/Explore';
+import ExploreType from '../pages/ExploreType';
 import Profile from '../pages/Profile';
 import DoneRecipes from '../pages/DoneRecipes';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
@@ -20,9 +21,9 @@ const Routes = () => (
       <Route path="/drinks/:recipeId" component={ Details } />
       <Route path="/foods/:recipeId/in-progress" component={ InProgress } />
       <Route path="/drinks/:recipeId/in-progress" component={ InProgress } />
-      <Route path="/explore" component={ Explore } />
-      <Route path="/explore/foods" component={ Explore } />
-      <Route path="/explore/drinks" component={ Explore } />
+      <Route exact path="/explore" component={ Explore } />
+      <Route exact path="/explore/foods" component={ ExploreType } />
+      <Route exact path="/explore/drinks" component={ ExploreType } />
       <Route path="/explore/foods/ingredients" component={ Explore } />
       <Route path="/explore/drinks/ingredients" component={ Explore } />
       <Route path="/explore/foods/nationalities" component={ Explore } />

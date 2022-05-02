@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../../components/Header/index';
+import Footer from '../../components/Footer/index';
 
 const ExploreType = () => {
   const { location: { pathname }, push } = useHistory();
@@ -61,6 +62,7 @@ const ExploreType = () => {
       >
         Surprise me!
       </button>
+      <Footer />
     </div>
   );
 };

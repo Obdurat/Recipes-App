@@ -1,47 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
-import copy from 'clipboard-copy';
+
 import API from '../../api';
 import {
-  favoriteRecipe,
-  isFavoriteRecipe,
   verifyIsDoneRecipe,
   verifyIsInProgressRecipe,
-} from '../../helpers/localStorege';
+} from '../../helpers/localStorage';
 import RecommendedRecipesCard from '../../components/RecommendedRecipesCard';
 import * as S from './styles';
 import recipeSerialize from '../../helpers/serialize';
 import IngredientsAndMeasures from '../../components/IngredientsAndMeasures';
 import VideoCard from '../../components/VideoCard';
-import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../../images/blackHeartIcon.svg';
+import ShareAndFavorite from '../../components/ShareAndFavorite';
 
 export default function Details() {
   const [recipe, setRecipe] = useState({});
   const [type, setType] = useState('');
   const [isDoneRecipe, setIsDoneRecipe] = useState(true);
   const [isInProgressRecipe, setIsInProgressRecipe] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
 
   const { pathname } = useLocation();
   const { recipeId } = useParams();
   const { push } = useHistory();
-
-  const onShareLink = () => {
-    copy(window.location.href).then(() => {
-      setCopied(true);
-    });
-  };
-
-  const onFavoriteRecipe = () => {
-    favoriteRecipe(recipe);
-    setIsFavorite(!isFavorite);
-  };
-
-  useEffect(() => {
-    setIsFavorite(isFavoriteRecipe(recipe));
-  }, [recipe]);
 
   useEffect(() => {
     setType(pathname.includes('foods') ? 'meals' : 'drinks');
@@ -68,21 +48,8 @@ export default function Details() {
         src={ recipe.thumb }
         alt={ recipe.title }
       />
-      <button
-        data-testid="share-btn"
-        onClick={ onShareLink }
-        type="button"
-      >
-        compartilhar
-      </button>
 
-      <img
-        data-testid="favorite-btn"
-        role="presentation"
-        onClick={ onFavoriteRecipe }
-        src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-        alt="favorite"
-      />
+      <ShareAndFavorite recipe={ recipe } />
 
       <p data-testid="recipe-category">
         { type === 'meals' ? recipe.category : recipe.alcoholicOrNot }
@@ -98,8 +65,6 @@ export default function Details() {
       {type && <RecommendedRecipesCard type={ type === 'meals' ? 'drinks' : 'meals' } />}
 
       <VideoCard video={ recipe.video } />
-
-      {copied && <p>Link copied! </p>}
 
       { isDoneRecipe && (
         <S.StartRecipeBtn

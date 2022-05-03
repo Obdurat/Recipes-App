@@ -1,12 +1,10 @@
 const keys = {
-  FOOD: {
-    key: 'meals',
+  meals: {
     title: 'strMeal',
     id: 'idMeal',
     thumb: 'strMealThumb',
   },
-  DRINK: {
-    key: 'drinks',
+  drinks: {
     title: 'strDrink',
     id: 'idDrink',
     thumb: 'strDrinkThumb',
@@ -25,10 +23,10 @@ const recipeSerialize = (obj, type) => {
     strAlcoholic,
     strArea,
     ...rest
-  } = obj[keys[type].key][0];
+  } = obj[type][0];
   return {
     id: rest[keys[type].id],
-    type: type.toLowerCase(),
+    type: type === 'drinks' ? 'drink' : 'food',
     title: rest[keys[type].title],
     thumb: rest[keys[type].thumb],
     nationality: strArea,

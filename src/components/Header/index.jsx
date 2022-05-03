@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import profile from '../../images/profileIcon.svg';
 import search from '../../images/searchIcon.svg';
 import SearchBar from '../SearchBar/SearchBar';
 
-const Header = () => {
+const Header = ({ recipeFunc }) => {
   const { pathname } = useLocation();
   const notToHaveLogo = ['explore', 'profile', 'done-recipes', 'favorite-recipes'];
   const [showSearchInput, setShowSearchInput] = useState(false);
@@ -43,9 +44,13 @@ const Header = () => {
         />
       </Link>
 
-      {showSearchInput && <SearchBar />}
+      {showSearchInput && <SearchBar recipeFunc={ recipeFunc } />}
     </header>
   );
 };
+
+Header.propTypes = {
+  recipeFunc: PropTypes.func,
+}.isRequired;
 
 export default Header;

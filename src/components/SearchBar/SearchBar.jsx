@@ -1,10 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import API from '../../api';
+import { TWELVE } from '../../helpers/constants';
+import convertAndSlice from '../../helpers/func';
 
-const SearchBar = () => {
-  const { pathname } = useLocation();
+const SearchBar = ({ recipeFunc }) => {
+  const history = useHistory();
+  const { location: { pathname } } = history;
 
   const [searchParams, setParams] = useState({ type: '', action: '', arg: '' });
+
+  const search = async () => {
+    const { type, action, arg } = searchParams;
+    if (action === 'byLetter' && arg.length > 1) {
+      global.alert('Your search must have only 1 (one) character');
+      return;
+    }
+    const resRecipes = await API(type, action, arg);
+    const convert = convertAndSlice(resRecipes, type, TWELVE);
+    if (convert === undefined) {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      return;
+    }
+    if (convert.length < 2) {
+      history.push(`${pathname}/${convert[0].id}`);
+      return;
+    }
+    recipeFunc(convert);
+  };
 
   useEffect(() => (
     pathname.includes('/foods')
@@ -65,12 +89,16 @@ const SearchBar = () => {
         } }
       />
 
-      <button type="button" data-testid="exec-search-btn">
+      <button type="button" data-testid="exec-search-btn" onClick={ search }>
         Search
       </button>
 
     </div>
   );
 };
+
+SearchBar.propTypes = {
+  recipeFunc: PropTypes.func,
+}.isRequired;
 
 export default SearchBar;

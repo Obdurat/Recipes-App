@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import API from '../../api';
-import RecommendedRecipesCard from '../../components/RecommendedRecipesCard';
 import {
   favoriteRecipe,
   isFavoriteRecipe,
   verifyIsDoneRecipe,
   verifyIsInProgressRecipe,
 } from '../../helpers/localStorege';
+import RecommendedRecipesCard from '../../components/RecommendedRecipesCard';
 import * as S from './styles';
 import recipeSerialize from '../../helpers/serialize';
 import IngredientsAndMeasures from '../../components/IngredientsAndMeasures';
@@ -44,7 +44,7 @@ export default function Details() {
   }, [recipe]);
 
   useEffect(() => {
-    setType(pathname.includes('foods') ? 'FOOD' : 'DRINK');
+    setType(pathname.includes('foods') ? 'meals' : 'drinks');
     setIsDoneRecipe(!verifyIsDoneRecipe(recipeId));
     setIsInProgressRecipe(!!verifyIsInProgressRecipe(recipeId,
       pathname.includes('foods') ? 'meals' : 'cocktails'));
@@ -85,7 +85,7 @@ export default function Details() {
       />
 
       <p data-testid="recipe-category">
-        { type === 'FOOD' ? recipe.category : recipe.alcoholicOrNot }
+        { type === 'meals' ? recipe.category : recipe.alcoholicOrNot }
       </p>
 
       <IngredientsAndMeasures
@@ -95,7 +95,7 @@ export default function Details() {
 
       <p data-testid="instructions">{recipe.instructions}</p>
 
-      {type && <RecommendedRecipesCard type={ type } />}
+      {type && <RecommendedRecipesCard type={ type === 'meals' ? 'drinks' : 'meals' } />}
 
       <VideoCard video={ recipe.video } />
 

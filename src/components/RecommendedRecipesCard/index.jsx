@@ -1,34 +1,23 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import API from '../../api';
-import recipeSerialize from '../../helpers/serialize';
+import { SIX } from '../../helpers/constants';
+import convertAndSlice from '../../helpers/func';
 import * as S from './styles';
-
-const SIX = 6;
 
 export default function RecommendedRecipesCard({ type }) {
   const [recommendation, setRecommendations] = useState([]);
-  const [cType, setCType] = useState('');
-  const [key, setKey] = useState('');
-
-  useEffect(() => {
-    setCType(type === 'FOOD' ? 'DRINK' : 'FOOD');
-    setKey(type === 'FOOD' ? 'drinks' : 'meals');
-  }, []);
-
-  const convertRecommendations = (obj) => obj[key]?.slice(0, SIX)
-    ?.map((item) => recipeSerialize({ [key]: [item] }, cType));
 
   useEffect(() => {
     (async () => {
-      if (cType) {
-        const res = await API(cType, 'byName', '');
+      if (type) {
+        const res = await API(type, 'byName', '');
         setRecommendations(
-          convertRecommendations(res) || {},
+          convertAndSlice(res, type, SIX) || {},
         );
       }
     })();
-  }, [cType]);
+  }, [type]);
 
   return (
     <S.RecommendationCard>

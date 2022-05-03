@@ -47,7 +47,6 @@ const SearchBar = ({ recipeFunc }) => {
           data-testid="ingredient-search-radio"
           onClick={ () => {
             setParams({ ...searchParams, action: 'byIngredient' });
-            console.log(searchParams);
           } }
         />
         Ingredient
@@ -61,7 +60,6 @@ const SearchBar = ({ recipeFunc }) => {
           data-testid="name-search-radio"
           onClick={ () => {
             setParams({ ...searchParams, action: 'byName' });
-            console.log(searchParams);
           } }
         />
         Name
@@ -75,7 +73,6 @@ const SearchBar = ({ recipeFunc }) => {
           data-testid="first-letter-search-radio"
           onClick={ () => {
             setParams({ ...searchParams, action: 'byLetter' });
-            console.log(searchParams);
           } }
         />
         First Letter
@@ -85,7 +82,6 @@ const SearchBar = ({ recipeFunc }) => {
         data-testid="search-input"
         onChange={ (e) => {
           setParams({ ...searchParams, arg: `${e.target.value}` });
-          console.log(searchParams);
         } }
       />
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import profile from '../../images/profileIcon.svg';
 import search from '../../images/searchIcon.svg';
+import SearchBar from '../SearchBar/SearchBar';
 
 const Header = () => {
   const { pathname } = useLocation();
@@ -42,7 +43,7 @@ const Header = () => {
         />
       </Link>
 
-      {showSearchInput && <input data-testid="search-input" />}
+      {showSearchInput && <SearchBar />}
     </header>
   );
 };

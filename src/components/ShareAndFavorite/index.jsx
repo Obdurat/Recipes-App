@@ -15,9 +15,16 @@ export default function ShareAndFavorite({ recipe }) {
   };
 
   const onShareLink = () => {
-    copy(window.location.href).then(() => {
-      setCopied(true);
-    });
+    if (window.location.href.includes('in-progress')) {
+      const newHref = window.location.href.replace('/in-progress', '');
+      copy(newHref).then(() => {
+        setCopied(true);
+      });
+    } else {
+      copy(window.location.href).then(() => {
+        setCopied(true);
+      });
+    }
   };
 
   useEffect(() => {

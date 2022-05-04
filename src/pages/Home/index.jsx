@@ -50,7 +50,7 @@ const Home = () => {
 
   return (
     <div>
-      <Header />
+      <Header recipeFunc={ setRecipes } />
       <CategoryCards
         categories={ categories }
         onClick={ setCategorySelected }

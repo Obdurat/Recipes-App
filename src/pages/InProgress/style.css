@@ -1,0 +1,4 @@
+.IngredientList {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import Header from '../../components/Header/index';
-import Footer from '../../components/Footer/index';
+import Header from '../../components/Header';
+import Footer from '../../components/Footer';
 
 const ExploreType = () => {
   const { location: { pathname }, push } = useHistory();

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { RecipeContext } from '../../context/RecipeContext';
 import API from '../../api';
 import { TWELVE } from '../../helpers/constants';
 import convertAndSlice from '../../helpers/func';
@@ -9,7 +10,7 @@ const SearchBar = ({ recipeFunc }) => {
   const history = useHistory();
   const { location: { pathname } } = history;
 
-  const [searchParams, setParams] = useState({ type: '', action: '', arg: '' });
+  const { searchParams, setParams } = useContext(RecipeContext);
 
   const search = async () => {
     const { type, action, arg } = searchParams;
@@ -38,7 +39,6 @@ const SearchBar = ({ recipeFunc }) => {
 
   return (
     <div>
-
       <label htmlFor="ingredient-search-radio">
         <input
           type="radio"

@@ -1,11 +1,17 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 
-const RecipeContext = createContext();
+export const RecipeContext = createContext();
 
 function RecipeProvider({ children }) {
+  const [searchParams, setParams] = useState({ type: '', action: '', arg: '' });
+  const context = {
+    searchParams,
+    setParams,
+  };
+
   return (
-    <RecipeContext.Provider value={ { oloco: 'bixo' } }>
+    <RecipeContext.Provider value={ context }>
       { children }
     </RecipeContext.Provider>
   );

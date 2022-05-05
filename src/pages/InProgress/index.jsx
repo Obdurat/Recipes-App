@@ -1,7 +1,117 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams, useLocation, useHistory } from 'react-router-dom';
+import API from '../../api';
+
+import ShareAndFavorite from '../../components/ShareAndFavorite';
+import recipeSerialize from '../../helpers/serialize';
+
+import { handleInProgress,
+  handleVerfication,
+  updateIngredients,
+  handleFinishRecipe,
+} from './functions';
+
+import './style.css';
 
 export default function InProgress() {
+  const [recipe, setRecipe] = useState({});
+  const [type, setType] = useState('');
+  const [ingredients, setIngredients] = useState([]);
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  const { pathname } = useLocation();
+  const { recipeId } = useParams();
+  const { push } = useHistory();
+
+  const pathType = () => (pathname.includes('foods') ? 'meals' : 'cocktails');
+
+  useEffect(() => {
+    setType(pathname.includes('foods') ? 'meals' : 'drinks');
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (type) {
+        const res = await API(type, 'byId', recipeId);
+        setRecipe(recipeSerialize(res, type));
+      }
+    })();
+  }, [type]);
+
+  useEffect(() => {
+    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (!inProgressRecipes) {
+      localStorage.setItem('inProgressRecipes', JSON.stringify({
+        cocktails: {},
+        meals: {},
+      }));
+    } else {
+      handleInProgress(pathname, recipeId);
+      setIngredients(inProgressRecipes[pathType()][recipeId]);
+    }
+  }, []);
+
+  useEffect(() => {
+    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    inProgressRecipes[pathType()][recipeId] = [...ingredients];
+    localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+  }, [ingredients]);
+
+  const handleIngredientSelection = ({ target: { value, checked } }) => {
+    setIngredients(updateIngredients(ingredients, checked, value));
+    setIsDisabled(handleVerfication(updateIngredients(ingredients,
+      checked, value), recipe));
+  };
+
   return (
-    <div>InProgress</div>
+    <div>
+      <h1 data-testid="recipe-title">{recipe.title}</h1>
+      <img
+        data-testid="recipe-photo"
+        style={ { width: '40vw' } }
+        src={ recipe.thumb }
+        alt={ recipe.title }
+      />
+
+      <ShareAndFavorite recipe={ recipe } />
+
+      <p data-testid="recipe-category">
+        { type === 'meals' ? recipe.category : recipe.alcoholicOrNot }
+      </p>
+
+      <div className="IngredientList">
+        {(recipe.ingredients && recipe.measures)
+        && recipe.ingredients.map((item, i) => (
+          <label
+            data-testid={ `${i}-ingredient-step` }
+            key={ `${item}:${i}` }
+            htmlFor={ `${i}-ingredient-name-and-measure` }
+          >
+            <input
+              type="checkbox"
+              data-testid={ `${i}-ingredient-name-and-measure` }
+              id={ `${i}-ingredient-name-and-measure` }
+              checked={ ingredients.some((ingredient) => ingredient === item) }
+              value={ `${item}` }
+              onChange={ handleIngredientSelection }
+            />
+            { `${item} : ${recipe.measures[i]}` }
+          </label>
+        ))}
+      </div>
+
+      <p data-testid="instructions">{recipe.instructions}</p>
+      <button
+        type="button"
+        data-testid="finish-recipe-btn"
+        disabled={ isDisabled }
+        onClick={ () => {
+          handleFinishRecipe(recipe);
+          push('/done-recipes');
+        } }
+      >
+        Finish recipe
+      </button>
+    </div>
   );
 }

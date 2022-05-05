@@ -22,6 +22,7 @@ const recipeSerialize = (obj, type) => {
     strYoutube,
     strAlcoholic,
     strArea,
+    strTags,
     ...rest
   } = obj[type][0];
   return {
@@ -36,6 +37,7 @@ const recipeSerialize = (obj, type) => {
     ingredients: convertItemsToArray(rest, 'strIngredient'),
     measures: convertItemsToArray(rest, 'strMeasure'),
     alcoholicOrNot: strAlcoholic,
+    tags: strTags ? strTags.split(',') : [],
   };
 };
 

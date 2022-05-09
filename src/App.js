@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ThemeProvider } from 'styled-components';
 import Routes from './routes/index.routes';
-import RecipeProvider from './context/RecipeContext';
+import { RecipeContext } from './context/RecipeContext';
 import GlobalStyles from './styles/GlobalStyle';
 
 function App() {
+  const { theme } = useContext(RecipeContext);
+
   return (
-    <RecipeProvider>
+    <ThemeProvider theme={ theme }>
       <GlobalStyles />
       <Routes />
-    </RecipeProvider>
+    </ThemeProvider>
   );
 }
 

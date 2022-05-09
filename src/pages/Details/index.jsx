@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation, useHistory } from 'react-router-dom';
-
 import API from '../../api';
 import {
   verifyIsDoneRecipe,
@@ -40,29 +39,38 @@ export default function Details() {
   }, [type]);
 
   return (
-    <div>
-      <h1 data-testid="recipe-title">{recipe.title}</h1>
-      <img
-        data-testid="recipe-photo"
-        style={ { width: '40vw' } }
-        src={ recipe.thumb }
-        alt={ recipe.title }
-      />
+    <S.DetailsContainer>
+      <S.RecipeThumb>
+        <img
+          data-testid="recipe-photo"
+          src={ recipe.thumb }
+          alt={ recipe.title }
+        />
+      </S.RecipeThumb>
 
-      <ShareAndFavorite recipe={ recipe } />
+      <S.RecipeInfos>
+        <div>
+          <h1 data-testid="recipe-title">{recipe.title}</h1>
+          <ShareAndFavorite share recipe={ recipe } />
+        </div>
 
-      <p data-testid="recipe-category">
-        { type === 'meals' ? recipe.category : recipe.alcoholicOrNot }
-      </p>
+        <p data-testid="recipe-category">
+          {type === 'meals' ? recipe.category : recipe.alcoholicOrNot}
+        </p>
 
-      <IngredientsAndMeasures
-        ingredients={ recipe.ingredients }
-        measures={ recipe.measures }
-      />
+        <IngredientsAndMeasures
+          ingredients={ recipe.ingredients }
+          measures={ recipe.measures }
+        />
 
-      <p data-testid="instructions">{recipe.instructions}</p>
-
-      {type && <RecommendedRecipesCard type={ type === 'meals' ? 'drinks' : 'meals' } />}
+        <S.Instructions data-testid="instructions">
+          <h3>Instructions</h3>
+          {recipe.instructions}
+        </S.Instructions>
+        {type && <RecommendedRecipesCard
+          type={ type === 'meals' ? 'drinks' : 'meals' }
+        />}
+      </S.RecipeInfos>
 
       <VideoCard video={ recipe.video } />
 
@@ -75,6 +83,6 @@ export default function Details() {
           { isInProgressRecipe ? 'Continue Recipe' : 'Start Recipe' }
         </S.StartRecipeBtn>
       )}
-    </div>
+    </S.DetailsContainer>
   );
 }

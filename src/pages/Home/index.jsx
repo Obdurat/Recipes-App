@@ -8,6 +8,7 @@ import { TWELVE, keys, SIX } from '../../helpers/constants';
 import convertAndSlice from '../../helpers/func';
 import RecipeCard from '../../components/RecipeCard';
 import CategoryCards from '../../components/CategoryCards';
+import * as S from './styles';
 
 const Home = () => {
   const [recipes, setRecipes] = useState([]);
@@ -78,18 +79,20 @@ const Home = () => {
   }, [categorySelected, key]);
 
   return (
-    <div>
-      <Header recipeFunc={ setRecipes } />
-      <CategoryCards
-        categories={ categories }
-        onClick={ setCategorySelected }
-        categorySelected={ categorySelected }
-      />
-      {recipes?.map((recipe, i) => (
-        <RecipeCard key={ recipe.id } type={ pathname } i={ i } recipe={ recipe } />
-      ))}
+    <S.HomeContainer>
+        <Header recipeFunc={ setRecipes } />
+        <CategoryCards
+          categories={ categories }
+          onClick={ setCategorySelected }
+          categorySelected={ categorySelected }
+        />
+        <S.CategoryCardSContainer>
+          {recipes?.map((recipe, i) => (
+            <RecipeCard key={ recipe.id } type={ pathname } i={ i } recipe={ recipe } />
+          ))}
+        </S.CategoryCardSContainer>
       <Footer />
-    </div>
+    </S.HomeContainer>
   );
 };
 

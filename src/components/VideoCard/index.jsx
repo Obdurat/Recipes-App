@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import * as S from './styles';
 
 export default function VideoCard({ video }) {
   return (
-    <div>
+    <S.VideoCardContainer>
       { video && (
-        <iframe
+        <S.Iframe
           data-testid="video"
           src={ video?.replace('watch?v=', 'embed/') }
           width={ 320 }
@@ -13,7 +14,7 @@ export default function VideoCard({ video }) {
           title="YouTube"
         />
       )}
-    </div>
+    </S.VideoCardContainer>
   );
 }
 

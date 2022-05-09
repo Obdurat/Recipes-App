@@ -5,11 +5,9 @@ import API from '../../api';
 import ShareAndFavorite from '../../components/ShareAndFavorite';
 import recipeSerialize from '../../helpers/serialize';
 
-import { handleInProgress,
-  handleVerfication,
-  updateIngredients,
-  handleFinishRecipe,
-} from './functions';
+import { updateIngredientList, handleFinishRecipe } from './helperFunctions';
+import { setInProgressRecipes } from '../../helpers/localStorage';
+import { ingredientListValidation } from '../../validation';
 
 import './style.css';
 
@@ -26,7 +24,10 @@ export default function InProgress() {
   const pathType = () => (pathname.includes('foods') ? 'meals' : 'cocktails');
 
   useEffect(() => {
+    setInProgressRecipes(pathname, recipeId);
     setType(pathname.includes('foods') ? 'meals' : 'drinks');
+    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    setIngredients(inProgressRecipes[pathType()][recipeId]);
   }, []);
 
   useEffect(() => {
@@ -34,22 +35,10 @@ export default function InProgress() {
       if (type) {
         const res = await API(type, 'byId', recipeId);
         setRecipe(recipeSerialize(res, type));
+        setIsDisabled(ingredientListValidation(ingredients, recipeSerialize(res, type)));
       }
     })();
   }, [type]);
-
-  useEffect(() => {
-    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (!inProgressRecipes) {
-      localStorage.setItem('inProgressRecipes', JSON.stringify({
-        cocktails: {},
-        meals: {},
-      }));
-    } else {
-      handleInProgress(pathname, recipeId);
-      setIngredients(inProgressRecipes[pathType()][recipeId]);
-    }
-  }, []);
 
   useEffect(() => {
     const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
@@ -58,8 +47,8 @@ export default function InProgress() {
   }, [ingredients]);
 
   const handleIngredientSelection = ({ target: { value, checked } }) => {
-    setIngredients(updateIngredients(ingredients, checked, value));
-    setIsDisabled(handleVerfication(updateIngredients(ingredients,
+    setIngredients(updateIngredientList(ingredients, checked, value));
+    setIsDisabled(ingredientListValidation(updateIngredientList(ingredients,
       checked, value), recipe));
   };
 
@@ -91,7 +80,8 @@ export default function InProgress() {
               type="checkbox"
               data-testid={ `${i}-ingredient-name-and-measure` }
               id={ `${i}-ingredient-name-and-measure` }
-              checked={ ingredients.some((ingredient) => ingredient === item) }
+              checked={ ingredients && ingredients
+                .some((ingredient) => ingredient === item) }
               value={ `${item}` }
               onChange={ handleIngredientSelection }
             />
@@ -101,6 +91,7 @@ export default function InProgress() {
       </div>
 
       <p data-testid="instructions">{recipe.instructions}</p>
+
       <button
         type="button"
         data-testid="finish-recipe-btn"

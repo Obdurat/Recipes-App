@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import loginValidation from '../../validation';
+import { loginValidation } from '../../validation';
 
 const Login = () => {
   const [email, setEmail] = useState('');

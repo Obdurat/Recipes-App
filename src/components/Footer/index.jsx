@@ -3,11 +3,10 @@ import { Link } from 'react-router-dom';
 import mealIcon from '../../images/mealIcon.svg';
 import drinkIcon from '../../images/drinkIcon.svg';
 import exploreIcon from '../../images/exploreIcon.svg';
-import './footerStyle.css';
+import * as S from './styles';
 
 const Footer = () => (
-  <div
-    className="footer-container"
+  <S.FooterContainer
     data-testid="footer"
   >
     <Link to="/drinks">
@@ -19,7 +18,7 @@ const Footer = () => (
     <Link to="/explore">
       <img src={ exploreIcon } alt="explore-button" data-testid="explore-bottom-btn" />
     </Link>
-  </div>
+  </S.FooterContainer>
 );
 
 export default Footer;

@@ -20,23 +20,27 @@ export default function RecommendedRecipesCard({ type }) {
   }, [type]);
 
   return (
-    <S.RecommendationCard>
-
-      { recommendation.map((item, index) => (
-        <div
-          key={ `${index}:id` }
-          data-testid={ `${index}-recomendation-card` }
-        >
-          <img src={ item.thumb } alt={ item.title } />
-          <h1
-            data-testid={ `${index}-recomendation-title` }
+    <S.RecommendationCardContainer>
+      <h3>
+        Recommendations
+      </h3>
+      <div>
+        { recommendation.map((item, index) => (
+          <S.RecommendationCard
+            key={ `${index}:id` }
+            data-testid={ `${index}-recomendation-card` }
           >
-            {item.title}
-          </h1>
-        </div>
-      ))}
+            <img src={ item.thumb } alt={ item.title } />
+            <h2
+              data-testid={ `${index}-recomendation-title` }
+            >
+              {item.title}
+            </h2>
+          </S.RecommendationCard>
+        ))}
+      </div>
 
-    </S.RecommendationCard>
+    </S.RecommendationCardContainer>
   );
 }
 

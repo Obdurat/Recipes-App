@@ -4,8 +4,10 @@ import copy from 'clipboard-copy';
 import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 import { favoriteRecipe, isFavoriteRecipe } from '../../helpers/localStorage';
+import shareIcon from '../../images/shareIcon.svg';
+import * as S from './styles';
 
-export default function ShareAndFavorite({ recipe }) {
+export default function ShareAndFavorite({ recipe, share }) {
   const [copied, setCopied] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -14,16 +16,22 @@ export default function ShareAndFavorite({ recipe }) {
     setIsFavorite(!isFavorite);
   };
 
+  const copyTime = (item) => {
+    const ONE_SECOND = 2000;
+    copy(item).then(() => {
+      setCopied(true);
+      setTimeout(() => {
+        setCopied(false);
+      }, ONE_SECOND);
+    });
+  };
+
   const onShareLink = () => {
     if (window.location.href.includes('in-progress')) {
       const newHref = window.location.href.replace('/in-progress', '');
-      copy(newHref).then(() => {
-        setCopied(true);
-      });
+      copyTime(newHref);
     } else {
-      copy(window.location.href).then(() => {
-        setCopied(true);
-      });
+      copyTime(window.location.href);
     }
   };
 
@@ -32,25 +40,29 @@ export default function ShareAndFavorite({ recipe }) {
   }, [recipe]);
 
   return (
-    <div>
-      <img
-        data-testid="favorite-btn"
-        role="presentation"
-        onClick={ onFavoriteRecipe }
-        src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-        alt="favorite"
-      />
-
-      <button
-        data-testid="share-btn"
-        onClick={ onShareLink }
-        type="button"
-      >
-        compartilhar
-      </button>
-
-      {copied && <p>Link copied! </p>}
-    </div>
+    <S.ShareAndFavoriteContainer>
+      <div>
+        <img
+          data-testid="favorite-btn"
+          role="presentation"
+          onClick={ onFavoriteRecipe }
+          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+          alt="favorite"
+        />
+        {
+          share
+          && <img
+            data-testid="share-btn"
+            onClick={ onShareLink }
+            role="presentation"
+            src={ shareIcon }
+            alt="share"
+            type="button"
+          />
+        }
+        {copied && <p>Link copied! </p>}
+      </div>
+    </S.ShareAndFavoriteContainer>
   );
 }
 

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import loginValidation from '../../validation';
+import { Form, H1, DOG } from './style';
+import amage from './food.gif';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -21,26 +23,32 @@ const Login = () => {
   };
 
   return (
-    <form>
-      <input
-        data-testid="email-input"
-        onChange={ (e) => setEmail(e.target.value) }
-        type="email"
-      />
-      <input
-        data-testid="password-input"
-        onChange={ (e) => setPassword(e.target.value) }
-        type="password"
-      />
-      <button
-        data-testid="login-submit-btn"
-        onClick={ login }
-        disabled={ isDisable }
-        type="button"
-      >
-        Entrar
-      </button>
-    </form>
+    <>
+      <H1>Recipe App</H1>
+      <Form>
+        <input
+          data-testid="email-input"
+          onChange={ (e) => setEmail(e.target.value) }
+          type="email"
+          placeholder="Email"
+        />
+        <input
+          data-testid="password-input"
+          onChange={ (e) => setPassword(e.target.value) }
+          type="password"
+          placeholder="Password"
+        />
+        <button
+          data-testid="login-submit-btn"
+          onClick={ login }
+          disabled={ isDisable }
+          type="button"
+        >
+          Entrar
+        </button>
+      </Form>
+      <DOG src={ amage } alt="dog" className="dog-eating" />
+    </>
   );
 };
 

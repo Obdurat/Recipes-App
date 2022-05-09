@@ -8,12 +8,9 @@ export const handleInProgress = (pathname, recipeId) => {
   localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
 };
 
-export const handleVerfication = (ingredients, recipe) => {
-  if (ingredients.length === recipe.ingredients.length) {
-    return false;
-  }
-  return true;
-};
+export const handleVerification = (ingredients, recipe) => (
+  !ingredients.length === recipe.ingredients.length
+);
 
 export const updateIngredients = (ingredients, checked, value) => {
   if (checked) {

@@ -44,6 +44,6 @@ export const favoriteRecipe = (recipe) => {
 
 export const isFavoriteRecipe = (recipe) => {
   const recipeList = JSON.parse(localStorage.getItem('favoriteRecipes'));
-  if (recipeList) return recipeList.find((item) => item.id === recipe.id);
+  if (recipeList) return recipeList.some((item) => item.id === recipe.id);
   return false;
 };

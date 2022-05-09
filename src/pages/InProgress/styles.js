@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const DetailsContainer = styled.section`
+export const InProgressContainer = styled.section`
   color: #fff;
   width: 100vw;
   font-size: 1.1rem;
@@ -8,6 +8,7 @@ export const DetailsContainer = styled.section`
   h1 {
     font-size: 3rem;
   }
+
 `;
 
 export const RecipeThumb = styled.section`
@@ -18,6 +19,24 @@ export const RecipeThumb = styled.section`
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+`;
+
+export const Ingredients = styled.section`
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid ${({ theme }) => theme.borderColor};
+  border-bottom: 1px solid ${({ theme }) => theme.borderColor};
+  padding: 10px 0 ;
+  margin: 10px 0;
+  line-height: 1.6rem;
+  background-color: ${({ theme }) => theme.secondary};
+  input {
+    margin: 0 5px;
+  }
+
+  h3 {
+    margin: 5px 0;
   }
 `;
 
@@ -44,7 +63,7 @@ export const RecipeInfos = styled.section`
   }
 `;
 
-export const StartRecipeBtn = styled.button`
+export const FinishRecipeBtn = styled.button`
   position: fixed ;
   bottom: 0;
   width: 80%;
@@ -60,8 +79,8 @@ export const StartRecipeBtn = styled.button`
 
 export const Instructions = styled.article`
   text-align: justify;
-
-  h3{
+  
+    h3{
     margin-bottom: 10px;
   }
 `;

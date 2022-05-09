@@ -6,12 +6,11 @@ import ShareAndFavorite from '../../components/ShareAndFavorite';
 import recipeSerialize from '../../helpers/serialize';
 
 import { handleInProgress,
-  handleVerfication,
+  handleVerification,
   updateIngredients,
   handleFinishRecipe,
 } from './functions';
-
-import './style.css';
+import * as S from './styles';
 
 export default function InProgress() {
   const [recipe, setRecipe] = useState({});
@@ -53,55 +52,67 @@ export default function InProgress() {
 
   useEffect(() => {
     const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    inProgressRecipes[pathType()][recipeId] = [...ingredients];
-    localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+    if (inProgressRecipes) {
+      inProgressRecipes[pathType()][recipeId] = ingredients;
+      localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+    }
   }, [ingredients]);
 
   const handleIngredientSelection = ({ target: { value, checked } }) => {
     setIngredients(updateIngredients(ingredients, checked, value));
-    setIsDisabled(handleVerfication(updateIngredients(ingredients,
+    setIsDisabled(handleVerification(updateIngredients(ingredients,
       checked, value), recipe));
   };
 
   return (
-    <div>
-      <h1 data-testid="recipe-title">{recipe.title}</h1>
-      <img
-        data-testid="recipe-photo"
-        style={ { width: '40vw' } }
-        src={ recipe.thumb }
-        alt={ recipe.title }
-      />
+    <S.InProgressContainer>
+      <S.RecipeThumb>
+        <img
+          data-testid="recipe-photo"
+          src={ recipe.thumb }
+          alt={ recipe.title }
+        />
+      </S.RecipeThumb>
 
-      <ShareAndFavorite recipe={ recipe } />
+      <S.RecipeInfos>
+        <div>
+          <h1 data-testid="recipe-title">{recipe.title}</h1>
+          <ShareAndFavorite recipe={ recipe } />
+        </div>
 
-      <p data-testid="recipe-category">
-        { type === 'meals' ? recipe.category : recipe.alcoholicOrNot }
-      </p>
+        <p data-testid="recipe-category">
+          { type === 'meals' ? recipe.category : recipe.alcoholicOrNot }
+        </p>
 
-      <div className="IngredientList">
-        {(recipe.ingredients && recipe.measures)
-        && recipe.ingredients.map((item, i) => (
-          <label
-            data-testid={ `${i}-ingredient-step` }
-            key={ `${item}:${i}` }
-            htmlFor={ `${i}-ingredient-name-and-measure` }
-          >
-            <input
-              type="checkbox"
-              data-testid={ `${i}-ingredient-name-and-measure` }
-              id={ `${i}-ingredient-name-and-measure` }
-              checked={ ingredients.some((ingredient) => ingredient === item) }
-              value={ `${item}` }
-              onChange={ handleIngredientSelection }
-            />
-            { `${item} : ${recipe.measures[i]}` }
-          </label>
-        ))}
-      </div>
+        <S.Ingredients className="IngredientList">
+          <h3>Ingredients</h3>
+          {(recipe.ingredients && recipe.measures)
+            && recipe.ingredients.map((item, i) => (
+              <label
+                data-testid={ `${i}-ingredient-step` }
+                key={ `${item}:${i}` }
+                htmlFor={ `${i}-ingredient-name-and-measure` }
+              >
+                <input
+                  type="checkbox"
+                  data-testid={ `${i}-ingredient-name-and-measure` }
+                  id={ `${i}-ingredient-name-and-measure` }
+                  checked={ ingredients && ingredients
+                    .some((ingredient) => ingredient === item) }
+                  value={ `${item}` }
+                  onChange={ handleIngredientSelection }
+                />
+                { `${item} : ${recipe.measures[i]}` }
+              </label>
+            ))}
+        </S.Ingredients>
 
-      <p data-testid="instructions">{recipe.instructions}</p>
-      <button
+        <S.Instructions data-testid="instructions">
+          <h3>Instructions</h3>
+          {recipe.instructions}
+        </S.Instructions>
+      </S.RecipeInfos>
+      <S.FinishRecipeBtn
         type="button"
         data-testid="finish-recipe-btn"
         disabled={ isDisabled }
@@ -111,7 +122,7 @@ export default function InProgress() {
         } }
       >
         Finish recipe
-      </button>
-    </div>
+      </S.FinishRecipeBtn>
+    </S.InProgressContainer>
   );
 }

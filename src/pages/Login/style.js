@@ -6,7 +6,7 @@ justify-content: center;
 flex-flow: column nowrap;
 margin: 35vh auto;
 align-items: center;
-background-color: #059862;
+background-color:#3B235D;
 padding: 10vh 5vw;
 width: 45vw;
 border-radius: 10px;
@@ -15,19 +15,23 @@ border-radius: 10px;
         margin-bottom: 15px;
         border-radius: 8px;
         width: 100%;
-        border-bottom-color: #059862;
-        border-top-color: #15202B;
-        padding: 5px;
+        border: none;
+        outline: none;
+        padding: 10px;
+        color: #000000;
     }
 
     button {
-        background-color: white;
         border-radius: 8px;
         margin-top: 30px;
         width: 100%;
-        background-color: #282A35;
+        background-color: #fff;
+        filter: brightness(${({ isDisable }) => (isDisable ? '80%' : '100%')});
         color: white;
         padding: 10px;
+        border: none;
+        font-size: 1.2rem;
+        color: #3B235D;
     }
 
     @media(max-width: 800px) {

@@ -47,3 +47,28 @@ export const isFavoriteRecipe = (recipe) => {
   if (recipeList) return recipeList.some((item) => item.id === recipe.id);
   return false;
 };
+
+const updateLocalStorage = (pathname, recipeId) => {
+  const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  if (pathname.includes('foods')) {
+    Object.assign(inProgressRecipes.meals, { [recipeId]: [] });
+  } else {
+    Object.assign(inProgressRecipes.cocktails, { [recipeId]: [] });
+  }
+  localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+};
+
+const pathType = (pathname) => (pathname.includes('foods') ? 'meals' : 'cocktails');
+
+export const setInProgressRecipes = (pathname, recipeId) => {
+  const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  if (!inProgressRecipes) {
+    localStorage.setItem('inProgressRecipes', JSON.stringify({
+      cocktails: {},
+      meals: {},
+    }));
+    updateLocalStorage(pathname, recipeId);
+  } else if (!inProgressRecipes[pathType(pathname)][recipeId]) {
+    updateLocalStorage(pathname, recipeId);
+  }
+};

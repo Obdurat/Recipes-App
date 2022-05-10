@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const RecipeCardContainer = styled.header`
+export const RecipeCardContainer = styled.section`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -14,10 +14,6 @@ export const RecipeCardContainer = styled.header`
   
   ${({ theme }) => (theme.isDark ? css`
       border: 1px solid ${theme.boxShadow};
-      ${'' /* background: rgb(64,48,94);
-      background: linear-gradient(90deg, rgba(64,48,94,1) 0%,
-       rgba(56,42,80,1) 10%, rgba(43,34,60,1) 22%,
-       rgba(26,23,33,1) 61%, rgba(18,18,20,1) 100%); */}
         box-shadow: 0 0 5px 0 ${theme.borderColor};
     ` : css`
       box-shadow: 0 0 10px 0 ${theme.borderColor};

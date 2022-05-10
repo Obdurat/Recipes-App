@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import * as S from './styles';
 
 const ExploreType = () => {
   const { location: { pathname }, push } = useHistory();
@@ -35,35 +36,37 @@ const ExploreType = () => {
   };
 
   return (
-    <div>
+    <>
       <Header />
-      <button
-        type="button"
-        data-testid="explore-by-ingredient"
-        value="ingredients"
-        onClick={ handleRedirect }
-      >
-        By Ingredient
-      </button>
-      { param !== 'drinks' && (
-        <button
+      <S.ExploreTypeContainer>
+        <S.Button
           type="button"
-          data-testid="explore-by-nationality"
-          value="nationalities"
+          data-testid="explore-by-ingredient"
+          value="ingredients"
           onClick={ handleRedirect }
         >
-          By Nationality
-        </button>
-      ) }
-      <button
-        type="button"
-        data-testid="explore-surprise"
-        onClick={ handleSurpriseMe }
-      >
-        Surprise me!
-      </button>
-      <Footer />
-    </div>
+          By Ingredient
+        </S.Button>
+        { param !== 'drinks' && (
+          <S.Button
+            type="button"
+            data-testid="explore-by-nationality"
+            value="nationalities"
+            onClick={ handleRedirect }
+          >
+            By Nationality
+          </S.Button>
+        ) }
+        <S.Button
+          type="button"
+          data-testid="explore-surprise"
+          onClick={ handleSurpriseMe }
+        >
+          Surprise me!
+        </S.Button>
+        <Footer />
+      </S.ExploreTypeContainer>
+    </>
   );
 };
 

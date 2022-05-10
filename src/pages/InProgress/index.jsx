@@ -5,12 +5,10 @@ import API from '../../api';
 import ShareAndFavorite from '../../components/ShareAndFavorite';
 import recipeSerialize from '../../helpers/serialize';
 
-import { handleInProgress,
-  handleVerification,
-  updateIngredients,
-  handleFinishRecipe,
-} from './functions';
 import * as S from './styles';
+import { updateIngredientList, handleFinishRecipe } from './helperFunctions';
+import { setInProgressRecipes } from '../../helpers/localStorage';
+import { ingredientListValidation } from '../../validation';
 
 export default function InProgress() {
   const [recipe, setRecipe] = useState({});
@@ -25,7 +23,10 @@ export default function InProgress() {
   const pathType = () => (pathname.includes('foods') ? 'meals' : 'cocktails');
 
   useEffect(() => {
+    setInProgressRecipes(pathname, recipeId);
     setType(pathname.includes('foods') ? 'meals' : 'drinks');
+    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    setIngredients(inProgressRecipes[pathType()][recipeId]);
   }, []);
 
   useEffect(() => {
@@ -33,34 +34,20 @@ export default function InProgress() {
       if (type) {
         const res = await API(type, 'byId', recipeId);
         setRecipe(recipeSerialize(res, type));
+        setIsDisabled(ingredientListValidation(ingredients, recipeSerialize(res, type)));
       }
     })();
   }, [type]);
 
   useEffect(() => {
     const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (!inProgressRecipes) {
-      localStorage.setItem('inProgressRecipes', JSON.stringify({
-        cocktails: {},
-        meals: {},
-      }));
-    } else {
-      handleInProgress(pathname, recipeId);
-      setIngredients(inProgressRecipes[pathType()][recipeId]);
-    }
-  }, []);
-
-  useEffect(() => {
-    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (inProgressRecipes) {
-      inProgressRecipes[pathType()][recipeId] = ingredients;
-      localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
-    }
+    inProgressRecipes[pathType()][recipeId] = [...ingredients];
+    localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
   }, [ingredients]);
 
   const handleIngredientSelection = ({ target: { value, checked } }) => {
-    setIngredients(updateIngredients(ingredients, checked, value));
-    setIsDisabled(handleVerification(updateIngredients(ingredients,
+    setIngredients(updateIngredientList(ingredients, checked, value));
+    setIsDisabled(ingredientListValidation(updateIngredientList(ingredients,
       checked, value), recipe));
   };
 

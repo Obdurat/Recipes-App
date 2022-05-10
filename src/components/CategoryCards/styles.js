@@ -4,17 +4,9 @@ export const CategoryCardsContainer = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  overflow: auto;
+  overflow-x: scroll;
   width: 100vw;
   border-bottom: 2px solid ${({ theme }) => theme.borderColor};
-
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 150vw;
-    padding: 0 10%;
-  }
 
 `;
 

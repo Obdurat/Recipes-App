@@ -1,18 +1,4 @@
-export const handleInProgress = (pathname, recipeId) => {
-  const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
-  if (pathname.includes('foods')) {
-    Object.assign(inProgressRecipes.meals, { [recipeId]: [] });
-  } else {
-    Object.assign(inProgressRecipes.cocktails, { [recipeId]: [] });
-  }
-  localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
-};
-
-export const handleVerification = (ingredients, recipe) => (
-  !ingredients.length === recipe.ingredients.length
-);
-
-export const updateIngredients = (ingredients, checked, value) => {
+export const updateIngredientList = (ingredients, checked, value) => {
   if (checked) {
     return [...ingredients, value];
   }

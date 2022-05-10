@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { RecipeContext } from '../../context/RecipeContext';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
+import * as S from './styles';
 
 const ExploreByIngredients = () => {
   const { location: { pathname }, push } = useHistory();
@@ -43,56 +44,63 @@ const ExploreByIngredients = () => {
   };
 
   return (
-    <div>
+    <>
+
       <Header />
-      <div>
-        { ingredientList.map((ingredient, index) => {
-          if (param === 'foods') {
+
+      <S.ExploreContainer>
+        <S.ExploreCardsContainer>
+          { ingredientList.map((ingredient, index) => {
+            if (param === 'foods') {
+              return (
+                <S.IngredientCard
+                  data-testid={ `${index}-ingredient-card` }
+                  key={ ingredient.strIngredient }
+                  onClick={ handleFilterMeals }
+                  value={ ingredient.strIngredient }
+                >
+                  <div>
+                    <img
+                      src={ `https://www.themealdb.com/images/ingredients/${ingredient.strIngredient}-Small.png` }
+                      alt={ ingredient.strIngredient }
+                      data-testid={ `${index}-card-img` }
+                    />
+                  </div>
+                  <h3
+                    data-testid={ `${index}-card-name` }
+                  >
+                    { ingredient.strIngredient }
+                  </h3>
+                </S.IngredientCard>
+              );
+            }
             return (
-              <button
+              <S.IngredientCard
                 type="button"
                 data-testid={ `${index}-ingredient-card` }
-                key={ ingredient.strIngredient }
-                onClick={ handleFilterMeals }
-                value={ ingredient.strIngredient }
+                key={ ingredient.strIngredient1 }
+                onClick={ handleFilterDrinks }
+                value={ ingredient.strIngredient1 }
               >
-                <img
-                  src={ `https://www.themealdb.com/images/ingredients/${ingredient.strIngredient}-Small.png` }
-                  alt={ ingredient.strIngredient }
-                  data-testid={ `${index}-card-img` }
-                />
-                <div
+                <div>
+                  <img
+                    src={ `https://www.thecocktaildb.com/images/ingredients/${ingredient.strIngredient1}-Small.png` }
+                    alt={ ingredient.strIngredient1 }
+                    data-testid={ `${index}-card-img` }
+                  />
+                </div>
+                <h3
                   data-testid={ `${index}-card-name` }
                 >
-                  { ingredient.strIngredient }
-                </div>
-              </button>
+                  { ingredient.strIngredient1 }
+                </h3>
+              </S.IngredientCard>
             );
-          }
-          return (
-            <button
-              type="button"
-              data-testid={ `${index}-ingredient-card` }
-              key={ ingredient.strIngredient1 }
-              onClick={ handleFilterDrinks }
-              value={ ingredient.strIngredient1 }
-            >
-              <img
-                src={ `https://www.thecocktaildb.com/images/ingredients/${ingredient.strIngredient1}-Small.png` }
-                alt={ ingredient.strIngredient1 }
-                data-testid={ `${index}-card-img` }
-              />
-              <div
-                data-testid={ `${index}-card-name` }
-              >
-                { ingredient.strIngredient1 }
-              </div>
-            </button>
-          );
-        })}
-      </div>
-      <Footer />
-    </div>
+          })}
+        </S.ExploreCardsContainer>
+        <Footer />
+      </S.ExploreContainer>
+    </>
   );
 };
 

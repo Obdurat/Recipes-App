@@ -12,29 +12,28 @@ export default function CategoryCards({ categories, onClick, categorySelected })
 
   return (
     <S.CategoryCardsContainer>
-      <div>
+
+      <S.Button
+        data-testid="All-category-filter"
+        type="button"
+        onClick={ handleClick }
+        id=""
+        selected={ selected }
+      >
+        All
+      </S.Button>
+      {categories && categories.map(({ strCategory }) => (
         <S.Button
-          data-testid="All-category-filter"
+          data-testid={ `${strCategory}-category-filter` }
           type="button"
+          id={ strCategory }
           onClick={ handleClick }
-          id=""
+          key={ strCategory }
           selected={ selected }
         >
-          All
+          {strCategory.split(' ')[0]}
         </S.Button>
-        {categories && categories.map(({ strCategory }) => (
-          <S.Button
-            data-testid={ `${strCategory}-category-filter` }
-            type="button"
-            id={ strCategory }
-            onClick={ handleClick }
-            key={ strCategory }
-            selected={ selected }
-          >
-            {strCategory.split(' ')[0]}
-          </S.Button>
-        ))}
-      </div>
+      ))}
     </S.CategoryCardsContainer>
   );
 }

@@ -37,14 +37,6 @@ const Home = () => {
     setCategories(resCategories[key].slice(0, SIX - 1));
   };
 
-  /* useEffect(() => {
-    if (categorySelected && key) {
-      getByCategory();
-    } else if (key) {
-      getByName();
-    }
-  }, [categorySelected, key]); */
-
   useEffect(() => {
     if (key) {
       getCategories();
@@ -80,17 +72,17 @@ const Home = () => {
 
   return (
     <S.HomeContainer>
-        <Header recipeFunc={ setRecipes } />
-        <CategoryCards
-          categories={ categories }
-          onClick={ setCategorySelected }
-          categorySelected={ categorySelected }
-        />
-        <S.CategoryCardSContainer>
-          {recipes?.map((recipe, i) => (
-            <RecipeCard key={ recipe.id } type={ pathname } i={ i } recipe={ recipe } />
-          ))}
-        </S.CategoryCardSContainer>
+      <Header recipeFunc={ setRecipes } />
+      <CategoryCards
+        categories={ categories }
+        onClick={ setCategorySelected }
+        categorySelected={ categorySelected }
+      />
+      <S.CategoryCardSContainer>
+        {recipes?.map((recipe, i) => (
+          <RecipeCard key={ recipe.id } type={ pathname } i={ i } recipe={ recipe } />
+        ))}
+      </S.CategoryCardSContainer>
       <Footer />
     </S.HomeContainer>
   );

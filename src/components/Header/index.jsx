@@ -1,6 +1,7 @@
 import React, { useContext, useMemo, useState } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { BsFillMoonFill, BsFillSunFill } from 'react-icons/bs';
 import profile from '../../images/profileIcon.svg';
 import search from '../../images/searchIcon.svg';
 import SearchBar from '../SearchBar/SearchBar';
@@ -12,7 +13,7 @@ const Header = ({ recipeFunc }) => {
   const [showSearchInput, setShowSearchInput] = useState(false);
   const { pathname } = useLocation();
   const { push } = useHistory();
-  const { changeTheme } = useContext(RecipeContext);
+  const { changeTheme, theme } = useContext(RecipeContext);
 
   const whenVisible = useMemo(() => {
     const notToHaveLogo = ['explore', 'profile', 'done-recipes', 'favorite-recipes'];
@@ -21,7 +22,7 @@ const Header = ({ recipeFunc }) => {
   }, [pathname]);
 
   return (
-    <S.HeaderContainer>
+    <S.HeaderContainer pathname={ pathname }>
       <img
         role="presentation"
         onClick={ () => push('/profile') }
@@ -44,14 +45,10 @@ const Header = ({ recipeFunc }) => {
 
       {pathname.includes('profile')
         && (
-          <button
-            type="button"
-            onClick={ changeTheme }
-          >
-            theme
-          </button>
+          theme.isDark
+            ? <BsFillSunFill onClick={ changeTheme } />
+            : <BsFillMoonFill onClick={ changeTheme } />
         )}
-
       {showSearchInput && <SearchBar
         setShowSearchInput={ setShowSearchInput }
         recipeFunc={ recipeFunc }

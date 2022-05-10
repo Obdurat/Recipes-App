@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
+import * as S from './styles';
 
 const ExploreByNationalities = () => {
   const [nationalityList, setNationalityList] = useState([]);
@@ -42,35 +42,48 @@ const ExploreByNationalities = () => {
   }, [nationality]);
 
   return (
-    <div>
+    <>
       <Header />
-      <div>
-        <select
-          data-testid="explore-by-nationality-dropdown"
-          onChange={ (e) => setNationality(e.target.value) }
-        >
-          <option data-testid="All-option">All</option>
-          { nationalityList.map(({ strArea }, index) => (
-            <option key={ index } data-testid={ `${strArea}-option` }>{ strArea }</option>
+      <S.ExploreNationalityContainer>
+        <div>
+          <select
+            data-testid="explore-by-nationality-dropdown"
+            onChange={ (e) => setNationality(e.target.value) }
+          >
+            <option data-testid="All-option">All</option>
+            { nationalityList.map(({ strArea }, index) => (
+              <option
+                key={ index }
+                data-testid={ `${strArea}-option` }
+              >
+                {strArea}
+              </option>
+            )) }
+          </select>
+        </div>
+        <S.ExploreCardsContainer>
+          { mealList.map(({ idMeal, strMeal, strMealThumb }, index) => (
+
+            <S.ExploreCard
+              to={ `/foods/${idMeal}` }
+              key={ strMeal }
+              data-testid={ `${index}-recipe-card` }
+            >
+              <div>
+                <img
+                  src={ `${strMealThumb}/preview` }
+                  alt={ strMeal }
+                  data-testid={ `${index}-card-img` }
+                />
+              </div>
+              <h3 data-testid={ `${index}-card-name` }>{ strMeal }</h3>
+            </S.ExploreCard>
+
           )) }
-        </select>
-      </div>
-      <div>
-        { mealList.map(({ idMeal, strMeal, strMealThumb }, index) => (
-          <Link to={ `/foods/${idMeal}` } key={ strMeal }>
-            <div data-testid={ `${index}-recipe-card` }>
-              <img
-                src={ `${strMealThumb}/preview` }
-                alt={ strMeal }
-                data-testid={ `${index}-card-img` }
-              />
-              <div data-testid={ `${index}-card-name` }>{ strMeal }</div>
-            </div>
-          </Link>
-        )) }
-      </div>
-      <Footer />
-    </div>
+        </S.ExploreCardsContainer>
+        <Footer />
+      </S.ExploreNationalityContainer>
+    </>
   );
 };
 

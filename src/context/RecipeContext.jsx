@@ -6,7 +6,7 @@ export const RecipeContext = createContext();
 
 function RecipeProvider({ children }) {
   const [searchParams, setParams] = useState({ type: '', action: '', arg: '' });
-  const [theme, setTheme] = useState(dark);
+  const [theme, setTheme] = useState(light);
   const [showSearchModal, setShowSearchModal] = useState();
 
   const changeTheme = () => {
@@ -16,8 +16,6 @@ function RecipeProvider({ children }) {
       setTheme(dark);
     }
   };
-
-  // eslint-disable-next-line react/no-multi-comp
 
   const context = {
     searchParams,

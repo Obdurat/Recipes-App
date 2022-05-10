@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import copy from 'clipboard-copy';
 import Header from '../../components/Header/index';
 import shareIcon from '../../images/shareIcon.svg';
+import * as S from './styles';
 
 const DoneRecipes = () => {
   const [doneRecipes, setDoneRecipes] = useState();
   const [copied, setCopied] = useState(false);
   const [filter, setFilter] = useState('');
 
+  const copyTime = (item) => {
+    const ONE_SECOND = 2000;
+    copy(item).then(() => {
+      setCopied(true);
+      setTimeout(() => {
+        setCopied(false);
+      }, ONE_SECOND);
+    });
+  };
+
   const onShareLink = ({ target: { value, name } }) => {
     const newHref = window.location.href.replace('/done-recipes', '');
-    copy(`${newHref}/${value}s/${name}`).then(() => {
-      setCopied(true);
-    });
+    copyTime(`${newHref}/${value}s/${name}`);
   };
 
   const handleClick = ({ target: { value } }) => {
@@ -25,85 +33,85 @@ const DoneRecipes = () => {
   ), []);
 
   return (
-    <div>
+    <S.DoneRecipesContainer>
       <Header />
-      <button
-        data-testid="filter-by-all-btn"
-        type="button"
-        onClick={ handleClick }
-        value=""
-      >
-        All
+      <S.Option>
 
-      </button>
-      <button
-        data-testid="filter-by-food-btn"
-        type="button"
-        onClick={ handleClick }
-        value="food"
-      >
-        Food
-
-      </button>
-      <button
-        data-testid="filter-by-drink-btn"
-        type="button"
-        onClick={ handleClick }
-        value="drink"
-      >
-        Drinks
-
-      </button>
+        <S.Button
+          data-testid="filter-by-all-btn"
+          type="button"
+          onClick={ handleClick }
+          value=""
+        >
+          All
+        </S.Button>
+        <S.Button
+          data-testid="filter-by-food-btn"
+          type="button"
+          onClick={ handleClick }
+          value="food"
+        >
+          Food
+        </S.Button>
+        <S.Button
+          data-testid="filter-by-drink-btn"
+          type="button"
+          onClick={ handleClick }
+          value="drink"
+        >
+          Drinks
+        </S.Button>
+      </S.Option>
       {doneRecipes && doneRecipes.filter((rec) => (rec.type.includes(filter)))
         .map((rec, index) => (
-          <div key={ rec.id } className="card">
-            <Link to={ `${rec.type}s/${rec.id}` }>
+          <S.DoneRecipeCard key={ rec.id } className="card">
+            <S.RecipeInfos to={ `${rec.type}s/${rec.id}` }>
               <img
                 data-testid={ `${index}-horizontal-image` }
                 src={ rec.thumb ? `${rec.thumb}/preview` : `${rec.image}/preview` }
                 alt={ rec.title }
               />
-              <p
-                data-testid={ `${index}-horizontal-name` }
-              >
-                {rec.title ? rec.title : rec.name}
+              <div>
+                <h3
+                  data-testid={ `${index}-horizontal-name` }
+                >
+                  {rec.title ? rec.title : rec.name}
+                </h3>
+                <p
+                  data-testid={ `${index}-horizontal-top-text` }
+                >
+                  { rec.type === 'food'
+                    ? `${rec.nationality} - ${rec.category}`
+                    : `${rec.alcoholicOrNot}` }
+                </p>
+                <p data-testid={ `${index}-horizontal-done-date` }>{rec.doneDate}</p>
+              </div>
+              {rec.tags.map((tag) => (
+                <span
+                  data-testid={ `${index}-${tag}-horizontal-tag` }
+                  key={ tag }
+                >
+                  {`${tag}`}
 
-              </p>
-            </Link>
-            <p
-              data-testid={ `${index}-horizontal-top-text` }
-            >
-              { rec.type === 'food'
-                ? `${rec.nationality} - ${rec.category}`
-                : `${rec.alcoholicOrNot}` }
+                </span>
+              ))}
+            </S.RecipeInfos>
+            <S.Share>
+              <img
+                data-testid={ `${index}-horizontal-share-btn` }
+                onClick={ onShareLink }
+                name={ rec.id }
+                value={ rec.type }
+                src={ shareIcon }
+                role="presentation"
+                alt="share"
+              />
+            </S.Share>
 
-            </p>
-            <p data-testid={ `${index}-horizontal-done-date` }>{rec.doneDate}</p>
-            <button
-              data-testid={ `${index}-horizontal-share-btn` }
-              onClick={ onShareLink }
-              type="button"
-              name={ rec.id }
-              value={ rec.type }
-              src={ shareIcon }
-            >
-              compartilhar
-            </button>
-
-            {copied && <p>Link copied! </p>}
-            {rec.tags.map((tag) => (
-              <span
-                data-testid={ `${index}-${tag}-horizontal-tag` }
-                key={ tag }
-              >
-                {`${tag}`}
-
-              </span>
-            ))}
-          </div>
+          </S.DoneRecipeCard>
         ))}
-
-    </div>
+      {copied && <S.Copied>Link copied!</S.Copied>}
+    </S.DoneRecipesContainer>
   );
 };
 

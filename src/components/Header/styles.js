@@ -16,10 +16,20 @@ export const HeaderContainer = styled.header`
     font-size: 1.8rem;
     text-align: center;
     width: 100%;
+
+    ${({ pathname }) => pathname.includes('explore')
+&& 'font-size: 1.4rem;'
+}
   }
 
   img {
     filter: invert(100%);
+  }
+
+  svg {
+    width: 25px;
+    height: 25px;
+    fill: #fff;
   }
 `;
 

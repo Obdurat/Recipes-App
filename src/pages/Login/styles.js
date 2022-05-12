@@ -33,7 +33,7 @@ border-radius: 10px;
         margin-top: 30px;
         width: 100%;
         background-color: #fff;
-        filter: brightness(${({ isDisable }) => (isDisable ? '80%' : '100%')});
+        filter: brightness(${({ isDisable }) => (isDisable ? '50%' : '100%')});
         color: white;
         padding: 10px;
         border: none;

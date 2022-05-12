@@ -24,6 +24,7 @@ export const HeaderContainer = styled.header`
 
   img {
     filter: invert(100%);
+    cursor: pointer;
   }
 
   svg {

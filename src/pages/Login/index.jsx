@@ -25,8 +25,8 @@ const Login = () => {
   return (
     <S.LoginContainer>
       <S.Title>
-        <p>FOOD</p>
-        <span>HUB</span>
+        <p>MEAL</p>
+        <span>ANCHOR</span>
       </S.Title>
       <S.Logo src={ Logo } alt="logo" />
       <S.Form isDisable={ isDisable }>

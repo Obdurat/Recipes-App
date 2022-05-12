@@ -8,6 +8,7 @@ export const FooterContainer = styled.footer`
   padding: 10px;
   position: fixed;
   width: 100vw;
+  cursor: pointer;
 
   img {
     filter: invert(100%);

@@ -11,6 +11,7 @@ export const RecipeCardContainer = styled.section`
   height: 80px;
   margin: 10px 0;
   position: relative;
+  cursor: pointer;
   
   ${({ theme }) => (theme.isDark ? css`
       border: 1px solid ${theme.boxShadow};

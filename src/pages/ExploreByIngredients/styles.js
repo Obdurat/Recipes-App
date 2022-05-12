@@ -21,6 +21,7 @@ export const IngredientCard = styled.div`
   height: 120px;
   margin: 10px 0;
   position: relative;
+  cursor: pointer;
 
   div {
     width: 100%;

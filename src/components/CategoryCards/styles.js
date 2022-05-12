@@ -2,8 +2,6 @@ import styled, { css } from 'styled-components';
 
 export const CategoryCardsContainer = styled.header`
   display: flex;
-  align-items: center;
-  justify-content: space-around;
   overflow-x: scroll;
   width: 100vw;
   border-bottom: 2px solid ${({ theme }) => theme.borderColor};

@@ -31,6 +31,7 @@ export const Button = styled.button`
 export const FavoriteRecipeCard = styled.section`
   display: flex;
   justify-content: space-between;
+
   align-items: center;
   border-radius: 5px;
   overflow: hidden;
@@ -53,10 +54,11 @@ export const RecipeInfos = styled(Link)`
     display: flex;
     text-decoration: none;
     cursor: pointer;
+    width: 90%;
 
     img { 
       object-fit: cover;
-      width: 30%;
+      width: 35%;
     }
     
     div {
@@ -81,23 +83,18 @@ export const RecipeInfos = styled(Link)`
 export const ShareAndFavoriteContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  right: 18%;
-  top: 40%;  
-  width: 20%;
+  width: 80px;
   max-width: 150px;
   div {
   position: relative;
-  width: 100%;
   img {
-    width: 35%;
+    width: 25px;
     filter: brightness(0) saturate(100%)
     invert(42%) sepia(7%) saturate(3771%) 
     hue-rotate(218deg) brightness(93%) contrast(89%);
     position: relative;
     margin-left: 5px;
   }
-
- 
   }
   `;
 

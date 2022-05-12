@@ -79,8 +79,8 @@ export const FinishRecipeBtn = styled.button`
 
 export const Instructions = styled.article`
   text-align: justify;
-  
-    h3{
+
+  h3{
     margin-bottom: 10px;
   }
 `;

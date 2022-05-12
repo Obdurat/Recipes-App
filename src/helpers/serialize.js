@@ -16,15 +16,10 @@ const convertItemsToArray = (recipe, key) => Object.keys(recipe)
   .map((item) => recipe[item]);
 
 const recipeSerialize = (obj, type) => {
-  const {
-    strCategory,
-    strInstructions,
-    strYoutube,
-    strAlcoholic,
-    strArea,
-    strTags,
-    ...rest
-  } = obj[type][0];
+  const { strCategory, strInstructions,
+    strYoutube, strAlcoholic, strArea, strTags,
+    ...rest } = obj[type][0];
+
   return {
     id: rest[keys[type].id],
     type: type === 'drinks' ? 'drink' : 'food',

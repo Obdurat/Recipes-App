@@ -59,7 +59,6 @@ export const StartRecipeBtn = styled.button`
 `;
 
 export const Instructions = styled.article`
-  text-align: justify;
 
   h3{
     margin-bottom: 10px;

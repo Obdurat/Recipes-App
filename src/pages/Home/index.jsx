@@ -41,6 +41,7 @@ const Home = () => {
     if (key) {
       getCategories();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
   useEffect(() => {
@@ -68,6 +69,7 @@ const Home = () => {
     return () => {
       setParams({ type: '', action: '', arg: '' });
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categorySelected, key]);
 
   return (
@@ -79,8 +81,12 @@ const Home = () => {
         categorySelected={ categorySelected }
       />
       <S.CategoryCardSContainer>
-        {recipes?.map((recipe, i) => (
-          <RecipeCard key={ recipe.id } type={ pathname } i={ i } recipe={ recipe } />
+        {recipes?.map((recipe) => (
+          <RecipeCard
+            key={ recipe.id }
+            type={ pathname }
+            recipe={ recipe }
+          />
         ))}
       </S.CategoryCardSContainer>
       <Footer />

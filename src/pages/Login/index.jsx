@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Form, H1, DOG } from './style';
-import image from './food.gif';
+import * as S from './styles';
+import Logo from '../../images/login-logo.svg';
 import { loginValidation } from '../../validation';
 
 const Login = () => {
@@ -23,9 +23,14 @@ const Login = () => {
   };
 
   return (
-    <>
-      <H1>Recipe App</H1>
-      <Form isDisable={ isDisable }>
+    <S.LoginContainer>
+      <S.Title>
+        <p>FOOD</p>
+        <span>HUB</span>
+      </S.Title>
+      <S.Logo src={ Logo } alt="logo" />
+      <S.Form isDisable={ isDisable }>
+        <h1>Login</h1>
         <input
           data-testid="email-input"
           onChange={ (e) => setEmail(e.target.value) }
@@ -46,9 +51,8 @@ const Login = () => {
         >
           Entrar
         </button>
-      </Form>
-      <DOG src={ image } alt="dog" className="dog-eating" />
-    </>
+      </S.Form>
+    </S.LoginContainer>
   );
 };
 

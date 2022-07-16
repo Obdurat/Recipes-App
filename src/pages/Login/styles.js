@@ -75,7 +75,9 @@ export const Title = styled.div`
     span {
         color: #fff;
         margin-left: 5px;
-        background: #e88f00;
+        font-weight: 800;
+        font-size: 2rem;
+        background: #3B235D;
         border-radius: 8px;
         padding: 4px;
     }
